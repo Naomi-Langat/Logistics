@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Trip;
 use app\models\TripDetails;
 use yii\data\ActiveDataProvider;
+use kartik\export\ExportMenu;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -167,5 +168,21 @@ class TripDetailsController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    public function actionExportExcel()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => TripDetails::find(),
+            'pagination' => false,
+        ]);
+
+        return ExportMenu::widget([
+            'dataProvider' => $dataProvider,
+            'columns' => $gridColumns, // The same columns array as used in the GridView widget
+            'exportConfig' => [
+                ExportMenu::FORMAT_EXCEL => true, // Set to true if you want to allow exporting to Excel
+                ExportMenu::FORMAT_PDF => true, // Set to true if you want to allow exporting to PDF
+            ],
+        ]);
     }
 }

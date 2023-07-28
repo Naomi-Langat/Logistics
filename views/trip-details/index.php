@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
+use kartik\export\ExportMenu;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\models\Products;
@@ -125,8 +126,50 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                     ],
 
-                ]); ?>
-                
+                ]); 
+               echo ExportMenu::widget([
+                    'dataProvider' => $dataProvider,
+                    'columns' => [
+                        // ['class' => 'yii\grid\SerialColumn'],
+
+                        //'id',
+                        //'TripID',
+                        [
+                            'attribute' => 'ProductID',
+                            'value' => function ($model) {
+                                return $model->product->ProductName;
+                            },
+                        ],
+                        [
+                            'attribute' => 'Product Size',
+                            'value' => function ($model) {
+                                return $model->product->SizeID.' kg';
+                            },
+                        ],
+                        [
+                            'attribute' => 'Quantity',
+                            'value' => function ($model) {
+                                return $model->Quantity.' bags';
+                            },
+                        ],  
+                        [
+                            'class' => ActionColumn::className(),
+                            'urlCreator' => function ($action, TripDetails $model, $key, $index, $column) {
+                                return Url::toRoute([$action, 'id' => $model->id]);
+                            }
+                        ],
+                    ],
+                    'filename' => 'exported_data',
+                    'showConfirmAlert' => false,
+                    'dropdownOptions' => [
+                        'label' => 'Export',
+                        'class' => 'btn btn-danger',
+                    ],
+                    'exportFormOptions' => [
+                        'class' => 'form-inline',
+                    ],
+                ]);
+                ?>
             </div>
         </div>
     </div>                    
