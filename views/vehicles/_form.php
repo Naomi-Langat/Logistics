@@ -6,6 +6,8 @@ use yii\helpers\ArrayHelper;
 use app\models\Transporters;
 use app\models\VehicleMakes;
 use app\models\VehicleTypes;
+use app\models\Departments;
+
 //use kartik\select2\Select2;
 
 /** @var yii\web\View $this */
@@ -29,6 +31,10 @@ use app\models\VehicleTypes;
                     <?= $form->field($model, 'TypeID')->dropDownList(ArrayHelper::map(VehicleTypes::find()->all(),'id','Description'), ['prompt' => '--SELECT--'])  ?>
 
                     <?= $form->field($model, 'Capacity')->textInput() ?>
+
+                    <?= $form->field($model, 'DepartmentID')->dropDownList(ArrayHelper::map(Departments::find()->all(),'id','DepartmentName'), ['prompt' => '--SELECT--'])  ?>
+
+                    <?= $form->field($model, 'Mileage')->textInput() ?>
 
                     <?= $form->field($model, 'TransporterID')->dropDownList(ArrayHelper::map(Transporters::find()->all(),'id',function($transporter) {return $transporter->Surname . ' ' . $transporter->OtherNames; }), ['prompt' => '--SELECT--']) ?>
 
