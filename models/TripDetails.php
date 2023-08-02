@@ -35,6 +35,7 @@ class TripDetails extends \yii\db\ActiveRecord
             [['TripID', 'ProductID', 'Quantity'], 'integer'],
             [['ProductID'], 'exist', 'skipOnError' => true, 'targetClass' => Products::class, 'targetAttribute' => ['ProductID' => 'id']],
             [['TripID'], 'exist', 'skipOnError' => true, 'targetClass' => Trip::class, 'targetAttribute' => ['TripID' => 'id']],
+            [['TripID','ProductID'], 'unique', 'targetAttribute' => ['TripID','ProductID']],
         ];
     }
 

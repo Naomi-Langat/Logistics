@@ -62,4 +62,6 @@ class Products extends \yii\db\ActiveRecord
     {
         return $this->hasMany(TripDetails::class, ['ProductID' => 'id']);
     }
+
+    
 }

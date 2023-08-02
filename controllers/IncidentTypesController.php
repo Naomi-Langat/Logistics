@@ -13,6 +13,10 @@ use yii\filters\VerbFilter;
  */
 class IncidentTypesController extends Controller
 {
+    public function beforeAction($action){
+        $this->enableCsrfValidation=false;
+        return parent::beforeAction($action);
+    }
     /**
      * @inheritDoc
      */

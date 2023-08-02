@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Trip;
+use app\models\Products;
 use app\models\TripDetails;
 use yii\data\ActiveDataProvider;
 use kartik\export\ExportMenu;
@@ -46,6 +47,8 @@ class TripDetailsController extends Controller
     public function actionIndex($id)
     {
         $model = new TripDetails();
+        $model->TripID = $id;
+        
         $dataProvider = new ActiveDataProvider([
             'query' => TripDetails::find()->where(['TripID' => $id]),
             'pagination' => [
@@ -57,11 +60,10 @@ class TripDetailsController extends Controller
                 ]
             ],
         ]);
-        $model->TripID = $id;
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-            'model' => $model,
-        ]);
+            return $this->render('index', [
+                'dataProvider' => $dataProvider,
+                'model' => $model,
+            ]);
     }
 
     public function actionStatus($id,$s)
@@ -106,9 +108,22 @@ class TripDetailsController extends Controller
         $model->TripID = $id;
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
 
-              return $this->redirect(['index','id'=>$model->TripID]);
+            if ($model->load($this->request->post())) {
+            
+                $weight= $model->product['SizeID'] * $model['Quantity'];
+                $totalWeight=$model->trip->weight + $weight;
+                $vehicleCapacity=$model->trip->vehicle->Capacity;
+                $quantity=($vehicleCapacity - $model->trip->weight)/ ($model->product['SizeID']);
+        
+
+                if($totalWeight > $vehicleCapacity){
+                    exit ("Exceeded vehicle capacity. Cannot load products!");
+                }else{
+                    if($model->save()){
+                        return $this->redirect(['index','id'=>$model->TripID]);
+                    }
+                }
             }
         } else {
             $model->loadDefaultValues();

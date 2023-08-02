@@ -25,6 +25,7 @@ use Yii;
  */
 class Trip extends \yii\db\ActiveRecord
 {
+    public $LoadWeight;
     /**
      * {@inheritdoc}
      */
@@ -65,6 +66,7 @@ class Trip extends \yii\db\ActiveRecord
             'DestinationStationID' => 'Destination Station',
             'CreatedBy' => 'Created By',
             'CreatedDate' => 'Created Date',
+            'LoadWeight'=>'Weight of Load',
         ];
     }
 
@@ -132,6 +134,20 @@ class Trip extends \yii\db\ActiveRecord
         }
         
         return $string;
+    }
+
+    public function getWeight(){
+
+        $sql="select sum(td.Quantity*p.SizeID)LoadWeight  
+                    from TripDetails td
+                    join Products p on p.id=td.ProductID
+                    where TripID=".$this->id."
+                    group by td.TripID"; 
+
+        $result=self::findBySql($sql)->one();
+
+        return empty($result)?0:$result->LoadWeight;
+
     }
 
 }

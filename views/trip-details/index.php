@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
 
                         <div class="col-md-5">
-                            <?= $form->field($model, 'Quantity')->textInput() ?>
+                            <?= $form->field($model, 'Quantity')->textInput(['type'=>'number','max'=>'']) ?>
                         </div>
 
                         <div class="col-md-2">
