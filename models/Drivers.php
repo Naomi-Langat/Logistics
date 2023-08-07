@@ -10,10 +10,20 @@ use Yii;
  * @property int $id
  * @property string $Surname
  * @property string $Othernames
+ * @property string|null $Email
+ * @property string|null $Address
  * @property string $DrivingLicenceNo
+ * @property string|null $LisenceType
  * @property float $MobileNo
  * @property float $IdNumber
+ * @property int $Status
+ * @property int|null $ExperienceID
+ * @property int|null $DriverHistoryID
+ * @property int|null $HealthID
  *
+ * @property Event $driverHistory
+ * @property DriverExperience $experience
+ * @property HealthRecords $health
  * @property Trip[] $trips
  */
 class Drivers extends \yii\db\ActiveRecord
@@ -34,7 +44,11 @@ class Drivers extends \yii\db\ActiveRecord
         return [
             [['Surname', 'Othernames', 'DrivingLicenceNo', 'MobileNo', 'IdNumber'], 'required'],
             [['MobileNo', 'IdNumber'], 'number'],
-            [['Surname', 'Othernames', 'DrivingLicenceNo'], 'string', 'max' => 50],
+            [['Status', 'ExperienceID', 'DriverHistoryID', 'HealthID'], 'integer'],
+            [['Surname', 'Othernames', 'Email', 'Address', 'DrivingLicenceNo', 'LisenceType'], 'string', 'max' => 50],
+            [['HealthID'], 'exist', 'skipOnError' => true, 'targetClass' => HealthRecords::class, 'targetAttribute' => ['HealthID' => 'id']],
+            [['DriverHistoryID'], 'exist', 'skipOnError' => true, 'targetClass' => Event::class, 'targetAttribute' => ['DriverHistoryID' => 'id']],
+            [['ExperienceID'], 'exist', 'skipOnError' => true, 'targetClass' => DriverExperience::class, 'targetAttribute' => ['ExperienceID' => 'id']],
         ];
     }
 
@@ -47,10 +61,47 @@ class Drivers extends \yii\db\ActiveRecord
             'id' => 'ID',
             'Surname' => 'Surname',
             'Othernames' => 'Othernames',
+            'Email' => 'Email',
+            'Address' => 'Address',
             'DrivingLicenceNo' => 'Driving Licence No',
+            'LisenceType' => 'Lisence Type',
             'MobileNo' => 'Mobile No',
             'IdNumber' => 'Id Number',
+            'Status' => 'Status',
+            'ExperienceID' => 'Experience ID',
+            'DriverHistoryID' => 'Driver History ID',
+            'HealthID' => 'Health ID',
         ];
+    }
+
+    /**
+     * Gets query for [[DriverHistory]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDriverHistory()
+    {
+        return $this->hasOne(Event::class, ['id' => 'DriverHistoryID']);
+    }
+
+    /**
+     * Gets query for [[Experience]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getExperience()
+    {
+        return $this->hasOne(DriverExperience::class, ['id' => 'ExperienceID']);
+    }
+
+    /**
+     * Gets query for [[Health]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getHealth()
+    {
+        return $this->hasOne(HealthRecords::class, ['id' => 'HealthID']);
     }
 
     /**

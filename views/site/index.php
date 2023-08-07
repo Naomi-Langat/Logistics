@@ -98,6 +98,58 @@ use app\models\Transporters;
                     </div>
                 </div>
                 <!--/ eCommerce statistic -->
+                <!-- Products sell and New Orders -->
+                <div class="row match-height">
+                    <div class="col-xl-8 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Total Trips</h4>
+                                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+                                        <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-content collapse show">
+                                <div class="card-body pt-0">
+                                    <div class="row mb-1">
+                                        <div class="col-6 col-md-4">
+                                            <h5>This year</h5>
+                                            <h2 class="info">$1,45,490</h2>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <h5>Previous year</h5>
+                                            <h2 class="text-muted">$67,690</h2>
+                                        </div>
+                                    </div>
+                                    <div class="chartjs">
+                                        <canvas id="thisYearRevenue" width="400" style="position: absolute;"></canvas>
+                                        <canvas id="lastYearRevenue" width="400"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-12">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body sales-growth-chart">
+                                    <div id="monthly-sales" class="height-250"></div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="chart-title mb-1 text-center">
+                                    <h6>Trips Of 2022</h6>
+                                </div>
+                                <div class="chart-stats text-center">
+                                    <a href="#" class="btn btn-sm btn-success box-shadow-2 mr-1">Statistics <i class="ft-bar-chart"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/ Products sell and New Orders -->
 
                 <!-- Products sell and New Orders -->
                 <!-- <div class="row match-height">
